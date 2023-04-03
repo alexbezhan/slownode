@@ -1,0 +1,5 @@
+# Install
+`npm i`
+
+# Run the server
+node --loader ts-node/esm src/server.ts

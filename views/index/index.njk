@@ -5,7 +5,39 @@
 </head>
 
 <body>
-    Hello World
+  Table
+  <table>
+    <thead>
+      {% for column in state.columns %}
+      <th>{{ column }}</th>
+      {% endfor %}
+    </thead>
+    <tbody>
+      {% for row in state.rows %}
+      <tr>
+        {% for column in state.columns %}
+          {% set value = row[column] %}
+          {% set valueFormatted %}
+            {% if column === 'Start Date' or column === 'End Date' %}
+              {{ fmt.date(value)}}
+            {% elif column === 'Targeting' %}
+              {{ value|safe }}
+            {% elif column === 'Click-Thru Rate (CTR)' or column === '7 Day Conversion Rate' or column === 'Total Advertising Cost of Sales (ACOS)' %}
+              {{ fmt.percent(value) }}
+            {% elif column === 'Cost Per Click (CPC)' or column === '7 Day Total Sales' or column === 'Spend' %}
+              {{ fmt.money(value) }}
+            {% elif column === 'Total Return on Advertising Spend (ROAS)' %}
+              {{ fmt.decimal(value) }}
+            {% else %}
+              {{ value }}
+            {% endif %}
+          {% endset %}
+          <td>{{ valueFormatted }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </body>
 
 </html>

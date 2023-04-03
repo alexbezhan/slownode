@@ -2,6 +2,7 @@ import path from 'path'
 import restana from "restana";
 import nunjucks from 'nunjucks'
 import files from 'serve-static'
+import * as fmt from './fmt.js'
 
 export let nunjucksEnv: nunjucks.Environment
 export let app: ReturnType<typeof restana>
@@ -10,6 +11,7 @@ const __dirname = path.resolve()
 async function server() {
     nunjucksEnv = nunjucks
         .configure(path.join(__dirname, 'views'), { autoescape: true, noCache: true, trimBlocks: true })
+        .addGlobal('fmt', fmt)
     app = restana()
 
     app.use(files('public', {
